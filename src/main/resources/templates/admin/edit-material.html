@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/style.css" rel="stylesheet">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
 <title>教材管理システム</title>
 </head>
 <body>
@@ -29,14 +29,14 @@
         <div class="row mb-3">
           <label for="name" class="col-md-2 col-form-label">教材名</label>
           <div class="col-md-10">
-            <input type="text" id="name" class="form-control" value="通訳者のための英語表現">
+            <input type="text" id="name" name="name" class="form-control" value="通訳者のための英語表現">
             <small class="error-message">教材名に関するエラーメッセージ</small>
           </div>
         </div>
         <div class="row mb-3">
           <label for="publisher" class="col-md-2 col-form-label">出版元</label>
           <div class="col-md-10">
-            <input type="text" id="publisher" class="form-control" value="ABC出版">
+            <input type="text" id="publisher" name="publisher" class="form-control" value="ABC出版">
             <small class="error-message">出版元に関するエラーメッセージ</small>
           </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="row mb-3">
           <label for="note" class="col-md-2 col-form-label">備考</label>
           <div class="col-md-10">
-            <input type="text" size="50" id="note" class="form-control" value="約２時間の動画。中級者向け">
+            <input type="text" size="50" id="note" name="note" class="form-control" value="約２時間の動画。中級者向け">
             <small class="error-message">備考に関するエラーメッセージ</small>
           </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="row mb-3">
           <label for="material-type" class="col-md-2 col-form-label">種類</label>
           <div class="col-md-10">
-            <select id="material-type" class="form-control">
+            <select id="material-type" name="materialType" class="form-control">
                 <option value="1">書籍</option>
                 <option value="2" selected>DVD</option>
                 <option value="3">オーディオ</option>
@@ -62,14 +62,14 @@
         </div>
 
         <input class="btn btn-primary" type="submit" value="保存する">
-        <a href="list-material.html" class="btn btn-light">キャンセル</a>
+        <a href="/admin/material/list" class="btn btn-light">キャンセル</a>
       </form>
 
     </div><!-- /.col- -->
   </div><!-- /.row -->
 
 </div><!-- /.container -->
-<script src="../js/jquery-3.6.1.min.js"></script>
-<script src="../js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/jquery-3.6.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
