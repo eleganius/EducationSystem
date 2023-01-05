@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../../../css/bootstrap.min.css" rel="stylesheet">
-<link href="../../../css/style.css" rel="stylesheet">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
 <title>教材管理システム</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
   <div class="row">
     <div class="col">
       <p>
-        <a href="add-material.html" class="btn btn-primary">視聴覚教材の追加</a>
+        <a href="/admin/material/add" class="btn btn-primary">視聴覚教材の追加</a>
         <a href="list-student.html" class="btn btn-light">生徒リスト</a>
       </p>
       <table class="table table-bordered">
@@ -40,35 +40,35 @@
           <td><a href="/admin/material/show/1">実践ビジネス英会話１</a></td>
           <td>書籍</td>
           <td>2020年05月04日(水) 10時50分48秒</td>
-          <td><a href="edit-material.html" class="btn btn-warning btn-sm">編集</a></td>
+          <td><a href="/admin/material/edit/1" class="btn btn-warning btn-sm">編集</a></td>
           <td><a href="" class="btn btn-danger btn-sm delete">削除</a></td>
         </tr>
         <tr>
           <td><a href="/admin/material/show/2">実践ビジネス英会話２</a></td>
           <td>書籍</td>
           <td>2020年05月04日(水) 10時52分24秒</td>
-          <td><a href="edit-material.html" class="btn btn-warning btn-sm">編集</a></td>
+          <td><a href="/admin/material/edit/2" class="btn btn-warning btn-sm">編集</a></td>
           <td><a href="" class="btn btn-danger btn-sm delete">削除</a></td>
         </tr>
         <tr>
           <td><a href="/admin/material/show/3">趣味の俳句</a></td>
           <td>DVD</td>
           <td>2020年05月06日(金) 11時10分21秒</td>
-          <td><a href="edit-material.html" class="btn btn-warning btn-sm">編集</a></td>
+          <td><a href="/admin/material/edit/3" class="btn btn-warning btn-sm">編集</a></td>
           <td><a href="" class="btn btn-danger btn-sm delete">削除</a></td>
         </tr>
         <tr>
           <td><a href="/admin/material/show/4">フランス語会話入門</a></td>
           <td>オーディオ</td>
           <td>2020年05月06日(金) 13時18分14秒</td>
-          <td><a href="edit-material.html" class="btn btn-warning btn-sm">編集</a></td>
+          <td><a href="/admin/material/edit/4" class="btn btn-warning btn-sm">編集</a></td>
           <td><a href="" class="btn btn-danger btn-sm delete">削除</a></td>
         </tr>
         <tr>
           <td><a href="/admin/material/show/5">フランス語の基礎文法</a></td>
           <td>書籍</td>
           <td>2020年05月06日(金) 13時22分29秒</td>
-          <td><a href="edit-material.html" class="btn btn-warning btn-sm">編集</a></td>
+          <td><a href="/admin/material/edit/5" class="btn btn-warning btn-sm">編集</a></td>
           <td><a href="" class="btn btn-danger btn-sm delete">削除</a></td>
         </tr>
       </table>
@@ -84,8 +84,8 @@
   </div><!-- /.row -->
 
 </div><!-- /.container -->
-<script src="../../../js/jquery-3.6.1.min.js"></script>
-<script src="../../../js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/button-action.js"></script>
+<script th:src="@{/js/jquery-3.6.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/button-action.js}"></script>
 </body>
 </html>
