@@ -104,4 +104,10 @@ public class MaterialController {
 		return "redirect:/admin/material/list?status=edit";
 	}
 
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable Integer id, Model model) throws Exception {
+		service.deleteMaterial(id);
+		return "redirect:/admin/material/list?status=delete";
+	}
+
 }
