@@ -10,7 +10,7 @@
 		materials.id, materials.name,
 		materials.publisher,
 		materials.note,
-		material_types.name AS materialType,
+		material_types.name AS materialTypeName,
 		materials.created,
 		materials.status
 		FROM materials
@@ -24,7 +24,7 @@
 		materials.id, materials.name,
 		materials.publisher,
 		materials.note,
-		material_types.name AS materialType,
+		material_types.name AS materialTypeName,
 		materials.created, materials.status
 		FROM materials
 		JOIN material_types
@@ -35,9 +35,9 @@
 	<insert id="insert"
 		parameterType="com.example.app.domain.Material">
 		INSERT INTO materials (name, publisher, note,
-		material_type_id, created, status)
+		material_type_id, created)
 		VALUES (#{name}, #{publisher},
-		#{note}, #{material_type_id}, NOW(), #{status})
+		#{note}, #{materialTypeId}, NOW())
 	</insert>
 
 	<update id="update"

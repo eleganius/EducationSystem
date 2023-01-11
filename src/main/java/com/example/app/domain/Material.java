@@ -22,7 +22,9 @@ public class Material {
 	@Size(max=100)
 	private String note;
 
-	private String materialType;
+	private Integer materialTypeId;
+
+	private String materialTypeName;
 
 	private Date created;
 

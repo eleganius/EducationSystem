@@ -1,10 +1,10 @@
 package com.example.app.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,44 +59,49 @@ public class MaterialController {
 	}
 
 	@GetMapping("/add")
-	public String addGet() {
+	public String addGet(Model model) throws Exception {
+		model.addAttribute("material", new Material());
+		model.addAttribute("types", service.getTypeList());
 		return "admin/material/add-material";
 	}
 
 	@PostMapping("/add")
 	public String addPost(
-			Material material,
-			HttpSession session) {
-
-		if (material.getName().isBlank()) {
+			@Validated Material material,
+			Errors errors,
+			Model model) throws Exception {
+		if (errors.hasErrors()) {
+			model.addAttribute("types", service.getTypeList());
 			return "admin/material/add-material";
 		}
 
-		session.setAttribute("material", material);
-
-		return "redirect:/admin/material/list";
+		service.addMaterial(material);
+		return "redirect:/admin/material/list?status=add";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editGet(
 			@PathVariable Integer id,
-			Model model) {
-
+			Model model) throws Exception {
+		model.addAttribute("material", service.getMaterialById(id));
+		model.addAttribute("types", service.getTypeList());
 		return "admin/material/edit-material";
 	}
 
 	@PostMapping("/edit/{id}")
 	public String editPost(
-			Material material,
-			HttpSession session) {
-
-		if (material.getName().isBlank()) {
+			@PathVariable Integer id,
+			@Validated Material material,
+			Errors errors,
+			Model model) throws Exception {
+		if (errors.hasErrors()) {
+			model.addAttribute("types", service.getTypeList());
 			return "admin/material/edit-material";
 		}
 
-		session.setAttribute("material", material);
-
-		return "redirect:/admin/material/list";
+		material.setId(id);
+		service.editMaterial(material);
+		return "redirect:/admin/material/list?status=edit";
 	}
 
 }
