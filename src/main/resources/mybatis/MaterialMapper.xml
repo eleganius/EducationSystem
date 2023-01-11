@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.app.dao.MaterialDao">
+
+	<select id="selectAll"
+		resultType="com.example.app.domain.Material">
+		SELECT
+		materials.id, materials.name,
+		materials.publisher,
+		materials.note,
+		material_types.name AS materialType,
+		materials.created,
+		materials.status
+		FROM materials
+		JOIN material_types
+		ON materials.material_type_id = material_types.id
+	</select>
+
+	<select id="selectById" parameterType="int"
+		resultType="com.example.app.domain.Material">
+		SELECT
+		materials.id, materials.name,
+		materials.publisher,
+		materials.note,
+		material_types.name AS materialType,
+		materials.created, materials.status
+		FROM materials
+		JOIN material_types
+		ON materials.material_type_id = material_types.id
+		WHERE materials.id = #{id}
+	</select>
+
+	<insert id="insert"
+		parameterType="com.example.app.domain.Material">
+		INSERT INTO materials (name, publisher, note,
+		material_type_id, created, status)
+		VALUES (#{name}, #{publisher},
+		#{note}, #{material_type_id}, NOW(), #{status})
+	</insert>
+
+	<update id="update"
+		parameterType="com.example.app.domain.Material">
+		UPDATE materials
+		SET name = #{name}, publisher = #{publisher},
+		note = #{note}, material_type_id = #{material_type_id},
+		status = #{status}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM materials WHERE id
+		= #{id}
+	</delete>
+
+</mapper>
