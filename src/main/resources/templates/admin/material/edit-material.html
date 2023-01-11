@@ -27,18 +27,18 @@
 		<div class="row">
 			<div class="col">
 
-				<form class="form" action="" method="post" th:object="material">
+				<form class="form" action="" method="post" th:object="${material}">
 					<div class="row mb-3">
 						<label for="name" class="col-md-2 col-form-label">教材名</label>
 						<div class="col-md-10">
-							<input type="text" th:field="name" class="form-control">
+							<input type="text" th:field="*{name}" class="form-control">
 							<small th:errors="*{name}" class="error-message"></small>
 						</div>
 					</div>
 					<div class="row mb-3">
 						<label for="publisher" class="col-md-2 col-form-label">出版元</label>
 						<div class="col-md-10">
-							<input type="text" th:field="publisher" class="form-control">
+							<input type="text" th:field="*{publisher}" class="form-control">
 							<small th:errors="*{publisher}" class="error-message"></small>
 						</div>
 					</div>
@@ -46,7 +46,7 @@
 					<div class="row mb-3">
 						<label for="note" class="col-md-2 col-form-label">備考</label>
 						<div class="col-md-10">
-							<input type="text" size="50" th:field="note" class="form-control">
+							<input type="text" size="50" th:field="*{note}" class="form-control">
 							<small th:errors="*{note}" class="error-message"></small>
 						</div>
 					</div>
@@ -54,7 +54,7 @@
 					<div class="row mb-3">
 						<label for="material-type" class="col-md-2 col-form-label">種類</label>
 						<div class="col-md-10">
-							<select th:field="materialTypeId" class="form-control">
+							<select th:field="*{materialTypeId}" class="form-control">
 								<option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
 							</select>
 						</div>

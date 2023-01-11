@@ -45,7 +45,7 @@
 		parameterType="com.example.app.domain.Material">
 		UPDATE materials
 		SET name = #{name}, publisher = #{publisher},
-		note = #{note}, material_type_id = #{material_type_id}
+		note = #{note}, material_type_id = #{materialTypeId}
 		WHERE id = #{id}
 	</update>
 
