@@ -16,6 +16,7 @@
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id
+		WHERE materials.status = "ACT"
 	</select>
 
 	<select id="selectById" parameterType="int"
@@ -44,14 +45,14 @@
 		parameterType="com.example.app.domain.Material">
 		UPDATE materials
 		SET name = #{name}, publisher = #{publisher},
-		note = #{note}, material_type_id = #{material_type_id},
-		status = #{status}
+		note = #{note}, material_type_id = #{material_type_id}
 		WHERE id = #{id}
 	</update>
 
 	<delete id="delete" parameterType="int">
-		DELETE FROM materials WHERE id
-		= #{id}
+		UPDATE materials
+		SET status = "DEL"
+		WHERE id = #{id}
 	</delete>
 
 </mapper>
