@@ -13,18 +13,16 @@ public class Material {
 	private Integer id;
 
 	@NotBlank
-	@Size(max=30)
+	@Size(max = 30)
 	private String name;
 
-	@Size(max=30)
+	@Size(max = 30)
 	private String publisher;
 
-	@Size(max=100)
+	@Size(max = 100)
 	private String note;
 
-	private Integer materialTypeId;
-
-	private String materialTypeName;
+	private MaterialType materialType;
 
 	private Date created;
 

@@ -65,4 +65,5 @@ public class MaterialServiceImpl implements MaterialService {
 		int offset = numPerPage * (page - 1);
 		return materialDao.selectLimited(offset, numPerPage);
 	}
+
 }
