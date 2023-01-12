@@ -1,22 +1,19 @@
 package com.example.app.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.app.domain.Material;
-import com.example.app.domain.MaterialForm;
 import com.example.app.service.MaterialService;
 
 @Controller
@@ -31,33 +28,11 @@ public class MaterialController {
 	@GetMapping("/list")
 	public String list(
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "status", required = false) String status,
 			Model model) throws Exception {
-		model.addAttribute("materials", service.getMaterialListByPage(page, NUM_PER_PAGE));
-		model.addAttribute("page", page);
 		model.addAttribute("totalPages", service.getTotalPages(NUM_PER_PAGE));
-		model.addAttribute("statusMessage", getStatusMessage(status));
+		model.addAttribute("page", page);
+		model.addAttribute("materials", service.getMaterialListByPage(page, NUM_PER_PAGE));
 		return "admin/material/list-material";
-	}
-
-	//status の値に応じたメッセージを作成する
-	private String getStatusMessage(String status) {
-		String message = null;
-		if (status == null) {
-			return message;
-		}
-		switch (status) {
-		case "add":
-			message = "教材を追加しました。";
-			break;
-		case "edit":
-			message = "教材情報を更新しました。";
-			break;
-		case "delete":
-			message = "教材情報を削除しました。";
-			break;
-		}
-		return message;
 	}
 
 	@GetMapping("/show/{id}")
@@ -70,31 +45,26 @@ public class MaterialController {
 
 	@GetMapping("/add")
 	public String addGet(Model model) throws Exception {
-		model.addAttribute("materialForm", new MaterialForm());
+		model.addAttribute("material", new Material());
 		model.addAttribute("types", service.getTypeList());
 		return "admin/material/add-material";
 	}
 
 	@PostMapping("/add")
 	public String addPost(
-			@Valid MaterialForm materialForm,
+			@Valid Material material,
 			Errors errors,
-			Model model) throws Exception {
+			Model model,
+			RedirectAttributes redirectAttributes) throws Exception {
 
 		if (errors.hasErrors()) {
-
-			// エラー内容の確認
-			List<ObjectError> objList = errors.getAllErrors();
-			for (ObjectError obj : objList) {
-				System.out.println(obj.toString());
-			}
 			model.addAttribute("types", service.getTypeList());
-
 			return "admin/material/add-material";
 		}
 
-		service.addMaterial(materialForm);
-		return "redirect:/admin/material/list?status=add";
+		service.addMaterial(material);
+		redirectAttributes.addFlashAttribute("message", "教材を追加しました。");
+		return "redirect:/admin/material/list";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -111,21 +81,26 @@ public class MaterialController {
 			@PathVariable Integer id,
 			@Valid Material material,
 			Errors errors,
-			Model model) throws Exception {
+			Model model,
+			RedirectAttributes redirectAttributes) throws Exception {
+
 		if (errors.hasErrors()) {
 			model.addAttribute("types", service.getTypeList());
 			return "admin/material/edit-material";
 		}
 
-		material.setId(id);
 		service.editMaterial(material);
-		return "redirect:/admin/material/list?status=edit";
+		redirectAttributes.addFlashAttribute("message", "教材を編集しました。");
+		return "redirect:/admin/material/list";
 	}
 
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Integer id, Model model) throws Exception {
+	public String delete(
+			@PathVariable Integer id,
+			RedirectAttributes redirectAttributes) throws Exception {
 		service.deleteMaterial(id);
-		return "redirect:/admin/material/list?status=delete";
+		redirectAttributes.addFlashAttribute("message", "教材を削除しました。");
+		return "redirect:/admin/material/list";
 	}
 
 }

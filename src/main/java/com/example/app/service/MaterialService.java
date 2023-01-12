@@ -3,7 +3,6 @@ package com.example.app.service;
 import java.util.List;
 
 import com.example.app.domain.Material;
-import com.example.app.domain.MaterialForm;
 import com.example.app.domain.MaterialType;
 
 public interface MaterialService {
@@ -12,9 +11,7 @@ public interface MaterialService {
 
 	Material getMaterialById(Integer id) throws Exception;
 
-	//void addMaterial(Material material) throws Exception;
-
-	void addMaterial(MaterialForm formData) throws Exception;
+	void addMaterial(Material material) throws Exception;
 
 	void editMaterial(Material material) throws Exception;
 

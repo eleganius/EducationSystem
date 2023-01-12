@@ -31,8 +31,8 @@
 					<a href="" class="btn btn-light">生徒リスト</a>
 				</p>
 				<!-- 操作に応じたメッセージを表示:start -->
-				<div th:if="${statusMessage}" class="alert alert-success mt-4">
-					[[${statusMessage}]]
+				<div th:if="${message}" class="alert alert-success mt-4">
+					[[${message}]]
 				</div>
 				<!-- 操作に応じたメッセージを表示:end -->
 				<table class="table table-bordered">

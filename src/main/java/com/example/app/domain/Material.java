@@ -22,10 +22,6 @@ public class Material {
 	@Size(max = 100)
 	private String note;
 
-	//private Integer materialTypeId;
-
-	//private String materialTypeName;
-
 	private MaterialType materialType;
 
 	private Date created;

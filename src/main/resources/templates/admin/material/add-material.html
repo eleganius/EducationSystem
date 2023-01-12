@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="col">
 
-				<form class="form" action="" method="post" th:object="${materialForm}">
+				<form class="form" action="" method="post" th:object="${material}">
 					<div class="row mb-3">
 						<label for="name" class="col-md-2 col-form-label">教材名</label>
 						<div class="col-md-10">
@@ -52,9 +52,9 @@
 					</div>
 
 					<div class="row mb-3">
-						<label for="material-type" class="col-md-2 col-form-label">種類</label>
+						<label for="materialType.id" class="col-md-2 col-form-label">種類</label>
 						<div class="col-md-10">
-							<select th:field="*{materialTypeId}" class="form-control">
+							<select th:field="*{materialType.id}" class="form-control">
 								<option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
 							</select>
 						</div>
