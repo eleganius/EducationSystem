@@ -53,4 +53,16 @@ public class MaterialServiceImpl implements MaterialService {
 	public List<MaterialType> getTypeList() throws Exception {
 		return materialTypeDao.selectAll();
 	}
+
+	@Override
+	public int getTotalPages(int numPerPage) throws Exception {
+		double totalNum = (double) materialDao.count();
+		return (int) Math.ceil(totalNum / numPerPage);
+	}
+
+	@Override
+	public List<Material> getMaterialListByPage(int page, int numPerPage) throws Exception {
+		int offset = numPerPage * (page - 1);
+		return materialDao.selectLimited(offset, numPerPage);
+	}
 }

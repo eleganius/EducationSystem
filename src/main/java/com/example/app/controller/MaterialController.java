@@ -18,15 +18,20 @@ import com.example.app.service.MaterialService;
 @RequestMapping("/admin/material")
 public class MaterialController {
 
+	private static final int NUM_PER_PAGE = 5;
+
 	@Autowired
 	MaterialService service;
 
 	@GetMapping("/list")
 	public String list(
+			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "status", required = false) String status,
 			Model model) throws Exception {
+		model.addAttribute("materials", service.getMaterialListByPage(page, NUM_PER_PAGE));
+		model.addAttribute("page", page);
+		model.addAttribute("totalPages", service.getTotalPages(NUM_PER_PAGE));
 		model.addAttribute("statusMessage", getStatusMessage(status));
-		model.addAttribute("materials", service.getMaterialList());
 		return "admin/material/list-material";
 	}
 

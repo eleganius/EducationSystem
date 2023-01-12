@@ -3,6 +3,7 @@ package com.example.app.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.app.domain.Material;
 
@@ -18,5 +19,10 @@ public interface MaterialDao {
 	void update(Material material) throws Exception;
 
 	void delete(Integer id) throws Exception;
+
+	Long count() throws Exception;
+
+	List<Material> selectLimited(@Param("offset") int offset,
+			@Param("num") int num) throws Exception;
 
 }
