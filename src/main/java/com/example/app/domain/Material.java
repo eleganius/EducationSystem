@@ -1,6 +1,7 @@
 package com.example.app.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,9 +23,11 @@ public class Material {
 	@Size(max=100)
 	private String note;
 
-	private Integer materialTypeId;
+	//private Integer materialTypeId;
 
-	private String materialTypeName;
+	//private String materialTypeName;
+
+	private List<MaterialType> materialType;
 
 	private Date created;
 

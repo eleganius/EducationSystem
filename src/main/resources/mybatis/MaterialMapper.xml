@@ -4,29 +4,45 @@
 
 <mapper namespace="com.example.app.dao.MaterialDao">
 
+	<resultMap id="joinedResult" type="com.example.app.domain.Material">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="publisher" column="publisher" />
+		<result property="note" column="note" />
+		<result property="created" column="created" />
+		<result property="status" column="status" />
+		<association property="materialType" column="materialType_id"
+			javaType="com.example.app.domain.MaterialType">
+			<id property="id" column="material_type_id" />
+			<result property="name" column="material_type_name" />
+		</association>
+		<collection property="materialType" ofType="com.example.app.domain.MaterialType">
+			<result property="name" column="material_type_name" />
+		</collection>
+	</resultMap>
+
 	<select id="selectAll"
 		resultType="com.example.app.domain.Material">
 		SELECT
 		materials.id, materials.name,
 		materials.publisher,
 		materials.note,
-		material_types.name AS materialTypeName,
-		materials.created,
-		materials.status
+		materials.created, materials.status,
+		material_types.id AS material_type_id,
+		material_types.name AS material_type_name
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id
 		WHERE materials.status = "ACT"
 	</select>
 
-	<select id="selectById" parameterType="int"
-		resultType="com.example.app.domain.Material">
+	<select id="selectById" parameterType="int" resultMap="joinedResult">
 		SELECT
 		materials.id, materials.name,
 		materials.publisher,
 		materials.note,
-		material_types.name AS materialTypeName,
-		materials.created, materials.status
+		materials.created, materials.status,
+		material_types.name
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id

@@ -22,7 +22,6 @@ public interface MaterialDao {
 
 	Long count() throws Exception;
 
-	List<Material> selectLimited(@Param("offset") int offset,
-			@Param("num") int num) throws Exception;
+	List<Material> selectLimited(@Param("offset") int offset, @Param("num") int num) throws Exception;
 
 }
