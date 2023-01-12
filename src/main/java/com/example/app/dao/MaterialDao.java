@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.app.domain.Material;
+import com.example.app.domain.MaterialForm;
 
 @Mapper
 public interface MaterialDao {
@@ -14,7 +15,9 @@ public interface MaterialDao {
 
 	Material selectById(Integer id) throws Exception;
 
-	void insert(Material material) throws Exception;
+	//void insert(Material material) throws Exception;
+
+	void insert(MaterialForm formData) throws Exception;
 
 	void update(Material material) throws Exception;
 

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.app.dao.MaterialDao;
 import com.example.app.dao.MaterialTypeDao;
 import com.example.app.domain.Material;
+import com.example.app.domain.MaterialForm;
 import com.example.app.domain.MaterialType;
 
 @Service
@@ -31,9 +32,15 @@ public class MaterialServiceImpl implements MaterialService {
 		return materialDao.selectById(id);
 	}
 
+	//	@Override
+	//	public void addMaterial(Material material) throws Exception {
+	//		materialDao.insert(material);
+	//
+	//	}
+
 	@Override
-	public void addMaterial(Material material) throws Exception {
-		materialDao.insert(material);
+	public void addMaterial(MaterialForm formData) throws Exception {
+		materialDao.insert(formData);
 
 	}
 
@@ -65,4 +72,5 @@ public class MaterialServiceImpl implements MaterialService {
 		int offset = numPerPage * (page - 1);
 		return materialDao.selectLimited(offset, numPerPage);
 	}
+
 }

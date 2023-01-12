@@ -1,10 +1,14 @@
 package com.example.app.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.app.domain.Material;
+import com.example.app.domain.MaterialForm;
 import com.example.app.service.MaterialService;
 
 @Controller
@@ -65,22 +70,30 @@ public class MaterialController {
 
 	@GetMapping("/add")
 	public String addGet(Model model) throws Exception {
-		model.addAttribute("material", new Material());
+		model.addAttribute("materialForm", new MaterialForm());
 		model.addAttribute("types", service.getTypeList());
 		return "admin/material/add-material";
 	}
 
 	@PostMapping("/add")
 	public String addPost(
-			@Validated Material material,
+			@Valid MaterialForm materialForm,
 			Errors errors,
 			Model model) throws Exception {
+
 		if (errors.hasErrors()) {
+
+			// エラー内容の確認
+			List<ObjectError> objList = errors.getAllErrors();
+			for (ObjectError obj : objList) {
+				System.out.println(obj.toString());
+			}
 			model.addAttribute("types", service.getTypeList());
+
 			return "admin/material/add-material";
 		}
 
-		service.addMaterial(material);
+		service.addMaterial(materialForm);
 		return "redirect:/admin/material/list?status=add";
 	}
 
@@ -96,7 +109,7 @@ public class MaterialController {
 	@PostMapping("/edit/{id}")
 	public String editPost(
 			@PathVariable Integer id,
-			@Validated Material material,
+			@Valid Material material,
 			Errors errors,
 			Model model) throws Exception {
 		if (errors.hasErrors()) {

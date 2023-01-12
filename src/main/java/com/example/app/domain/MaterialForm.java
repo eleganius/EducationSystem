@@ -1,16 +1,12 @@
 package com.example.app.domain;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
 
 @Data
-public class Material {
-
-	private Integer id;
+public class MaterialForm {
 
 	@NotBlank
 	@Size(max = 30)
@@ -22,14 +18,6 @@ public class Material {
 	@Size(max = 100)
 	private String note;
 
-	//private Integer materialTypeId;
-
-	//private String materialTypeName;
-
-	private MaterialType materialType;
-
-	private Date created;
-
-	private String status;
+	private Integer materialTypeId;
 
 }

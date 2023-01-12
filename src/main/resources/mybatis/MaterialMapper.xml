@@ -4,64 +4,98 @@
 
 <mapper namespace="com.example.app.dao.MaterialDao">
 
-	<resultMap id="joinedResult" type="com.example.app.domain.Material">
+	<resultMap id="joinedResult"
+		type="com.example.app.domain.Material">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="publisher" column="publisher" />
 		<result property="note" column="note" />
 		<result property="created" column="created" />
 		<result property="status" column="status" />
-		<association property="materialType" column="materialType_id"
+		<association property="materialType"
 			javaType="com.example.app.domain.MaterialType">
-			<id property="id" column="material_type_id" />
-			<result property="name" column="material_type_name" />
+			<id property="id" column="material_types_id" />
+			<result property="name" column="material_types_name" />
 		</association>
-		<collection property="materialType" ofType="com.example.app.domain.MaterialType">
-			<result property="name" column="material_type_name" />
-		</collection>
+		<!-- <collection property="materialType" ofType="com.example.app.domain.MaterialType"> -->
+		<!-- <result property="name" column="material_type_name" /> -->
+		<!-- </collection> -->
 	</resultMap>
+	
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM Materials
+	</select>
+	
+	<select id="selectLimited" resultMap="joinedResult"
+		resultType="com.example.app.domain.Material">
+		SELECT
+		materials.id,
+		materials.name,
+		materials.publisher,
+		materials.note,
+		materials.material_type_id,
+		materials.created,
+		materials.status,
+		material_types.id AS material_types_id,
+		material_types.name AS material_types_name
+		FROM materials
+		JOIN material_types
+			ON materials.material_type_id = material_types.id
+		WHERE materials.status = "ACT"
+		LIMIT #{offset}, #{num}
+	</select>
 
 	<select id="selectAll"
 		resultType="com.example.app.domain.Material">
 		SELECT
-		materials.id, materials.name,
+		materials.id,
+		materials.name,
 		materials.publisher,
 		materials.note,
-		materials.created, materials.status,
-		material_types.id AS material_type_id,
-		material_types.name AS material_type_name
+		materials.created,
+		materials.status,
+		material_types.name AS material_types_name
 		FROM materials
 		JOIN material_types
-		ON materials.material_type_id = material_types.id
+			ON materials.material_type_id = material_types.id
 		WHERE materials.status = "ACT"
 	</select>
 
-	<select id="selectById" parameterType="int" resultMap="joinedResult">
+	<select id="selectById" parameterType="int"
+		resultMap="joinedResult">
 		SELECT
-		materials.id, materials.name,
+		materials.id,
+		materials.name,
 		materials.publisher,
 		materials.note,
-		materials.created, materials.status,
-		material_types.name
+		materials.material_type_id,
+		materials.created,
+		materials.status,
+		material_types.id AS material_types_id,
+		material_types.name AS material_types_name
 		FROM materials
 		JOIN material_types
-		ON materials.material_type_id = material_types.id
+			ON materials.material_type_id = material_types.id
 		WHERE materials.id = #{id}
 	</select>
 
+	<!--	<insert id="insert"-->
+	<!--		parameterType="com.example.app.domain.Material"-->
+	<!--		useGeneratedKeys="true" keyProperty="id">-->
+	<!--		INSERT INTO materials (name, publisher, note, material_type_id, created)-->
+	<!--		VALUES (#{name}, #{publisher}, #{note}, #{materialTypeId}, NOW())-->
+	<!--	</insert>-->
+	
 	<insert id="insert"
-		parameterType="com.example.app.domain.Material">
-		INSERT INTO materials (name, publisher, note,
-		material_type_id, created)
-		VALUES (#{name}, #{publisher},
-		#{note}, #{materialTypeId}, NOW())
+		parameterType="com.example.app.domain.MaterialForm">
+		INSERT INTO materials (name, publisher, note, material_type_id, created)
+		VALUES (#{name}, #{publisher}, #{note}, #{materialTypeId}, NOW())
 	</insert>
 
 	<update id="update"
 		parameterType="com.example.app.domain.Material">
 		UPDATE materials
-		SET name = #{name}, publisher = #{publisher},
-		note = #{note}, material_type_id = #{materialTypeId}
+		SET name = #{name}, publisher = #{publisher}, note = #{note}, material_type_id = #{materialTypeId}
 		WHERE id = #{id}
 	</update>
 
@@ -70,22 +104,5 @@
 		SET status = "DEL"
 		WHERE id = #{id}
 	</delete>
-
-	<select id="count" resultType="long">
-		SELECT COUNT(*) FROM Materials
-	</select>
-
-	<select id="selectLimited" resultType="com.example.app.domain.Material">
-		SELECT
-			materials.id, materials.name,
-			materials.publisher,
-			materials.note,
-			material_types.name AS materialTypeName,
-			materials.created, materials.status
-			FROM materials
-			JOIN material_types
-			ON materials.material_type_id = material_types.id
-			LIMIT #{offset}, #{num}
-	</select>
 
 </mapper>
