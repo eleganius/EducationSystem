@@ -55,4 +55,21 @@
 		WHERE id = #{id}
 	</delete>
 
+	<select id="count" resultType="long">
+		SELECT COUNT(*) FROM Materials
+	</select>
+
+	<select id="selectLimited" resultType="com.example.app.domain.Material">
+		SELECT
+			materials.id, materials.name,
+			materials.publisher,
+			materials.note,
+			material_types.name AS materialTypeName,
+			materials.created, materials.status
+			FROM materials
+			JOIN material_types
+			ON materials.material_type_id = material_types.id
+			LIMIT #{offset}, #{num}
+	</select>
+
 </mapper>

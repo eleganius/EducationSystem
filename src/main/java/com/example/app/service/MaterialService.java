@@ -19,4 +19,8 @@ public interface MaterialService {
 
 	List<MaterialType> getTypeList() throws Exception;
 
+	int getTotalPages(int numPerPage) throws Exception;
+
+	List<Material> getMaterialListByPage(int page, int numPerPage) throws Exception;
+
 }
