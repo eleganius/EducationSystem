@@ -1,6 +1,14 @@
 package com.example.app.service;
 
+import java.util.List;
+
+import com.example.app.domain.RentalRecord;
+
 public interface RentalRecordService {
+
+	// ある教材の最新の貸し出し履歴
+	List<RentalRecord> getLatestRentalRecordListByMaterialId(
+			int materialId, int num) throws Exception;
 
 	// 教材を借りる
 	void borrowMaterial(int studentId, int materialId) throws Exception;
