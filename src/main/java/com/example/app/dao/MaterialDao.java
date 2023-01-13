@@ -24,4 +24,21 @@ public interface MaterialDao {
 
 	long countActive() throws Exception;
 
+	// ある生徒の貸し出し中のリストを取得
+	List<Material> selectBorrowingStudentId(int studentId) throws Exception;
+
+	// 貸し出しに可能な教材のリストを取得（LIMIT句あり）
+	List<Material> selectBorrowableWithOffset(@Param("offset") int offset,
+			@Param("num") int num) throws Exception;
+
+	// 貸し出しに可能な教材の数を取得（ページ番号用）
+	long countBorrowable() throws Exception;
+
+	// 教材に「貸し出し中」を記録
+	void addBorrowedRecord(@Param("id") int materialId,
+			@Param("rentalId") int rentalId) throws Exception;
+
+	// 教材に「返却済み」を記録
+	void addReturnedRecord(int materialId) throws Exception;
+
 }

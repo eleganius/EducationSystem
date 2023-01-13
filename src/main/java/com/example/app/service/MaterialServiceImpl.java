@@ -59,6 +59,36 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
+	public List<Material> getBorrowingMaterialList(int studentId) throws Exception {
+		return materialDao.selectBorrowingStudentId(studentId);
+	}
+
+	@Override
+	public List<Material> getBorrowableMaterialListPerPage(int page, int numPerPage) throws Exception {
+		int offset = numPerPage * (page - 1);
+		return materialDao.selectBorrowableWithOffset(offset, numPerPage);
+	}
+
+	@Override
+	public int getTotalBorrowableMaterialPages(int numPerPage) throws Exception {
+		long count = materialDao.countBorrowable();
+		return (int) Math.ceil((double) count / numPerPage);
+	}
+
+	@Override
+	public boolean isBorrowable(Integer materialId) throws Exception {
+		Material material = materialDao.selectById(materialId);
+
+		if (material == null) {
+			return false;
+		} else if (material.getRentalId() != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
 	public List<MaterialType> getMaterialTypeList() throws Exception {
 		return materialTypeDao.selectAll();
 	}

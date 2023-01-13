@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.dao.RentalRecordDao">
+
+	<insert id="addBorrowedRecord"
+	parameterType="com.example.app.domain.RentalRecord"
+	useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		rental_records (student_id, material_id, borrowed_at)
+		VALUES (#{studentId}, #{materialId}, NOW())
+	</insert>
+
+	<update id="addReturnedRecord" parameterType="int">
+		UPDATE rental_records
+		SET returned_at = NOW()
+		WHERE material_id = #{materialId}
+		AND returned_at IS NULL
+	</update>
+
+	<select id="countBorrowingByStudentId" resultType="int"
+	parameterType="int">
+		SELECT COUNT(*) FROM rental_records
+		WHERE student_id = #{studentId}
+		AND returned_at IS NULL
+	</select>
+
+	<select id="selectBorrowingRecordByMaterialId"
+	resultType="com.example.app.domain.RentalRecord"
+	parameterType="int">
+		SELECT * FROM rental_records
+		WHERE material_id = #{materialId}
+		AND returned_at IS NULL
+	</select>
+
+</mapper>
