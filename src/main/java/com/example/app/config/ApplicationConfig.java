@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
 
-	//バリデーションメッセージのカスタマイズ
+	// バリデーションメッセージのカスタマイズ
 	@Override
 	public Validator getValidator() {
 		var validator = new LocalValidatorFactoryBean();
@@ -25,12 +25,4 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		return messageSource;
 	}
 
-	//認証用フィルタの有効化
-//	@Bean
-//	public FilterRegistrationBean<AuthFilter> authFilter() {
-//		var bean = new FilterRegistrationBean<AuthFilter>(new AuthFilter());
-//		bean.addUrlPatterns("/members/*");
-//		bean.addUrlPatterns("/news/*");
-//		return bean;
-//	}
 }

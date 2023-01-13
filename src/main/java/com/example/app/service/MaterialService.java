@@ -11,16 +11,16 @@ public interface MaterialService {
 
 	Material getMaterialById(Integer id) throws Exception;
 
+	void deleteMaterialById(Integer id) throws Exception;
+
 	void addMaterial(Material material) throws Exception;
 
 	void editMaterial(Material material) throws Exception;
 
-	void deleteMaterial(Integer id) throws Exception;
-
-	List<MaterialType> getTypeList() throws Exception;
+	List<Material> getMaterialListPerPage(int page, int numPerPage) throws Exception;
 
 	int getTotalPages(int numPerPage) throws Exception;
 
-	List<Material> getMaterialListByPage(int page, int numPerPage) throws Exception;
+	List<MaterialType> getMaterialTypeList() throws Exception;
 
 }
