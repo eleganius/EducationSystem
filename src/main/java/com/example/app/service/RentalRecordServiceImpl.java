@@ -1,5 +1,7 @@
 package com.example.app.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,11 @@ public class RentalRecordServiceImpl implements RentalRecordService {
 
 	@Autowired
 	MaterialDao materialDao;
+
+	@Override
+	public List<RentalRecord> getLatestRentalRecordListByMaterialId(int materialId, int num) throws Exception {
+		return rentalRecordDao.selectLatestByMaterialId(materialId, num);
+	}
 
 	@Override
 	public void borrowMaterial(int studentId, int materialId) throws Exception {

@@ -15,15 +15,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.app.domain.Material;
 import com.example.app.service.MaterialService;
+import com.example.app.service.RentalRecordService;
 
 @Controller
 @RequestMapping("/admin/material")
 public class MaterialController {
 
 	private static final int NUM_PER_PAGE = 5;
+	private static final int RECORD_NUM = 3;
 
 	@Autowired
 	MaterialService service;
+
+	@Autowired
+	RentalRecordService rentalRecordService;
 
 	@GetMapping("/list")
 	public String list(
@@ -41,6 +46,8 @@ public class MaterialController {
 			@PathVariable Integer id,
 			Model model) throws Exception {
 		model.addAttribute("material", service.getMaterialById(id));
+		model.addAttribute("recordList",
+				rentalRecordService.getLatestRentalRecordListByMaterialId(id, RECORD_NUM));
 		return "admin/show-material";
 	}
 

@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.dao.RentalRecordDao">
 
+	<select id="selectLatestByMaterialId"
+	resultType="com.example.app.domain.RentalRecord">
+		SELECT
+		rental_records.id, rental_records.student_id,
+		rental_records.material_id,
+		rental_records.borrowed_at,
+		rental_records.returned_at,
+		students.name AS student_name
+		FROM rental_records
+		JOIN students
+		ON rental_records.student_id = students.id
+		WHERE rental_records.material_id = #{materialId}
+		ORDER BY rental_records.borrowed_at DESC
+		LIMIT 0, #{num}
+	</select>
+
 	<insert id="addBorrowedRecord"
 	parameterType="com.example.app.domain.RentalRecord"
 	useGeneratedKeys="true" keyProperty="id">
