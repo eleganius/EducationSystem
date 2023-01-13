@@ -9,6 +9,7 @@
 		<result property="note" column="note" />
 		<result property="created" column="created" />
 		<result property="status" column="status" />
+		<result property="rentalId" column="rental_id" />
 		<association property="materialType" javaType="com.example.app.domain.MaterialType">
 			<id property="id" column="material_type_id" />
 			<result property="name" column="material_type_name" />
@@ -19,7 +20,8 @@
 		SELECT
 			materials.id, materials.name, materials.publisher,
 			materials.note, materials.created, materials.status,
-			materials.material_type_id, material_types.name AS material_type_name
+			materials.material_type_id, material_types.name AS material_type_name,
+			materials.rental_id
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id
@@ -30,7 +32,8 @@
 		SELECT
 			materials.id, materials.name, materials.publisher,
 			materials.note, materials.created, materials.status,
-			materials.material_type_id, material_types.name AS material_type_name
+			materials.material_type_id, material_types.name AS material_type_name,
+			materials.rental_id
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id
@@ -58,7 +61,8 @@
 		SELECT
 			materials.id, materials.name, materials.publisher,
 			materials.note, materials.created, materials.status,
-			materials.material_type_id, material_types.name AS material_type_name
+			materials.material_type_id, material_types.name AS material_type_name,
+			materials.rental_id
 		FROM materials
 		JOIN material_types
 		ON materials.material_type_id = material_types.id
@@ -71,6 +75,53 @@
 		WHERE status = 'ACT'
 	</select>
 
-	<!-- TODO:select -->
+	<select id="selectBorrowingByStudentId" parameterType="int"
+	resultMap="material">
+		SELECT
+		materials.id, materials.name, materials.publisher,
+		materials.note, materials.created, materials.status,
+		materials.material_type_id, material_types.name AS material_type_name,
+		materials.rental_id
+		FROM materials
+		JOIN material_types
+		ON materials.material_type_id = material_types.id
+		LEFT JOIN rental_records
+		ON materials.rental_id = rental_records.id
+		WHERE rental_records.student_id = #{studentId}
+		ORDER BY rental_records.borrowed_at
+	</select>
+	
+	<select id="selectBorrowableWithOffset" resultMap="material">
+		SELECT
+		materials.id, materials.name, materials.publisher,
+		materials.note, materials.created, materials.status,
+		materials.material_type_id, material_types.name AS material_type_name,
+		materials.rental_id
+		FROM materials
+		JOIN material_types
+		ON materials.material_type_id = material_types.id
+		WHERE materials.status = 'ACT'
+		AND rental_id IS NULL
+		ORDER BY materials.created DESC, materials.id DESC
+		LIMIT #{offset}, #{num}
+	</select>
+	
+	<select id="countBorrowable" resultType="long">
+		SELECT COUNT(*) FROM materials
+		WHERE materials.status = 'ACT'
+		AND rental_id IS NULL
+	</select>
+	
+	<update id="addBorrowedRecord">
+		UPDATE materials
+		SET rental_id = #{rentalId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="addReturnedRecord" parameterType="int">
+		UPDATE materials
+		SET rental_id = NULL
+		WHERE id = #{id}
+	</update>
 
 </mapper>

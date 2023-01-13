@@ -60,7 +60,7 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Override
 	public List<Material> getBorrowingMaterialList(int studentId) throws Exception {
-		return materialDao.selectBorrowingStudentId(studentId);
+		return materialDao.selectBorrowingByStudentId(studentId);
 	}
 
 	@Override

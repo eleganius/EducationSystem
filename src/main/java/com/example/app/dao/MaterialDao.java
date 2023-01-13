@@ -25,7 +25,7 @@ public interface MaterialDao {
 	long countActive() throws Exception;
 
 	// ある生徒の貸し出し中のリストを取得
-	List<Material> selectBorrowingStudentId(int studentId) throws Exception;
+	List<Material> selectBorrowingByStudentId(int studentId) throws Exception;
 
 	// 貸し出しに可能な教材のリストを取得（LIMIT句あり）
 	List<Material> selectBorrowableWithOffset(@Param("offset") int offset,
