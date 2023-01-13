@@ -14,14 +14,14 @@ public interface MaterialDao {
 
 	Material selectById(Integer id) throws Exception;
 
+	void setDeleteById(Integer id) throws Exception;
+
 	void insert(Material material) throws Exception;
 
 	void update(Material material) throws Exception;
 
-	void delete(Integer id) throws Exception;
-
-	Long count() throws Exception;
-
 	List<Material> selectLimited(@Param("offset") int offset, @Param("num") int num) throws Exception;
+
+	long countActive() throws Exception;
 
 }

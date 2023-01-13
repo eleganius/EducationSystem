@@ -1,4 +1,4 @@
-package com.example.app.controller;
+package com.example.app.controller.admin;
 
 import javax.validation.Valid;
 
@@ -29,10 +29,11 @@ public class MaterialController {
 	public String list(
 			@RequestParam(name = "page", defaultValue = "1") Integer page,
 			Model model) throws Exception {
-		model.addAttribute("totalPages", service.getTotalPages(NUM_PER_PAGE));
-		model.addAttribute("page", page);
-		model.addAttribute("materials", service.getMaterialListByPage(page, NUM_PER_PAGE));
-		return "admin/material/list-material";
+		int totalPages = service.getTotalPages(NUM_PER_PAGE);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("materialList", service.getMaterialListPerPage(page, NUM_PER_PAGE));
+		return "admin/list-material";
 	}
 
 	@GetMapping("/show/{id}")
@@ -40,26 +41,26 @@ public class MaterialController {
 			@PathVariable Integer id,
 			Model model) throws Exception {
 		model.addAttribute("material", service.getMaterialById(id));
-		return "admin/material/show-material";
+		return "admin/show-material";
 	}
 
 	@GetMapping("/add")
-	public String addGet(Model model) throws Exception {
+	public String add(Model model) throws Exception {
 		model.addAttribute("material", new Material());
-		model.addAttribute("types", service.getTypeList());
-		return "admin/material/add-material";
+		model.addAttribute("materialTypeList", service.getMaterialTypeList());
+		return "admin/add-material";
 	}
 
 	@PostMapping("/add")
-	public String addPost(
+	public String add(
 			@Valid Material material,
 			Errors errors,
 			Model model,
 			RedirectAttributes redirectAttributes) throws Exception {
 
 		if (errors.hasErrors()) {
-			model.addAttribute("types", service.getTypeList());
-			return "admin/material/add-material";
+			model.addAttribute("materialTypeList", service.getMaterialTypeList());
+			return "admin/add-material";
 		}
 
 		service.addMaterial(material);
@@ -68,16 +69,16 @@ public class MaterialController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String editGet(
+	public String edit(
 			@PathVariable Integer id,
 			Model model) throws Exception {
 		model.addAttribute("material", service.getMaterialById(id));
-		model.addAttribute("types", service.getTypeList());
-		return "admin/material/edit-material";
+		model.addAttribute("materialTypeList", service.getMaterialTypeList());
+		return "admin/edit-material";
 	}
 
 	@PostMapping("/edit/{id}")
-	public String editPost(
+	public String edit(
 			@PathVariable Integer id,
 			@Valid Material material,
 			Errors errors,
@@ -85,8 +86,8 @@ public class MaterialController {
 			RedirectAttributes redirectAttributes) throws Exception {
 
 		if (errors.hasErrors()) {
-			model.addAttribute("types", service.getTypeList());
-			return "admin/material/edit-material";
+			model.addAttribute("materialTypeList", service.getMaterialTypeList());
+			return "admin/edit-material";
 		}
 
 		service.editMaterial(material);
@@ -98,7 +99,7 @@ public class MaterialController {
 	public String delete(
 			@PathVariable Integer id,
 			RedirectAttributes redirectAttributes) throws Exception {
-		service.deleteMaterial(id);
+		service.deleteMaterialById(id);
 		redirectAttributes.addFlashAttribute("message", "教材を削除しました。");
 		return "redirect:/admin/material/list";
 	}
