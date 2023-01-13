@@ -28,4 +28,6 @@ public class Material {
 
 	private String status;
 
+	private Integer rentalId;
+
 }

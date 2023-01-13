@@ -21,6 +21,18 @@ public interface MaterialService {
 
 	int getTotalPages(int numPerPage) throws Exception;
 
+	// ある生徒が現在借りている教材の取得
+	List<Material> getBorrowingMaterialList(int studentId) throws Exception;
+
+	// 貸し出し可能な教材のリスト（ページごと）
+	List<Material> getBorrowableMaterialListPerPage(int page, int numPerPage) throws Exception;
+
+	// 貸し出し可能な教材のページ数
+	int getTotalBorrowableMaterialPages(int numPerPage) throws Exception;
+
+	// 教材が貸し出し可能か否か判別
+	boolean isBorrowable(Integer materialId) throws Exception;
+
 	List<MaterialType> getMaterialTypeList() throws Exception;
 
 }
